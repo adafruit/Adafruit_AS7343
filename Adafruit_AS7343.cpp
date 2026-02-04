@@ -698,6 +698,36 @@ bool Adafruit_AS7343::isDigitalSaturated() {
 }
 
 /**
+ * @brief Set how often auto-zero is performed
+ *
+ * Auto-zero compensates for temperature drift. The value sets how many
+ * measurement cycles between auto-zero operations.
+ * - 0 = never (not recommended)
+ * - 1 = every cycle
+ * - 255 = only before first measurement (default)
+ *
+ * @param frequency Number of cycles between auto-zero (0-255)
+ * @return true on success
+ */
+bool Adafruit_AS7343::setAutoZeroFrequency(uint8_t frequency) {
+  setBank(false);
+  Adafruit_BusIO_Register az_reg =
+      Adafruit_BusIO_Register(i2c_dev, AS7343_AZ_CONFIG);
+  return az_reg.write(frequency);
+}
+
+/**
+ * @brief Get the current auto-zero frequency setting
+ * @return Cycles between auto-zero operations
+ */
+uint8_t Adafruit_AS7343::getAutoZeroFrequency() {
+  setBank(false);
+  Adafruit_BusIO_Register az_reg =
+      Adafruit_BusIO_Register(i2c_dev, AS7343_AZ_CONFIG);
+  return az_reg.read();
+}
+
+/**
  * @brief Get the chip part ID
  * @return Part ID (should be 0x81 for AS7343)
  */
