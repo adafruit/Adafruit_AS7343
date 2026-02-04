@@ -1,23 +1,32 @@
 name: Arduino Library CI
 
-on: [push, pull_request]
+on: [pull_request, push, repository_dispatch]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+    - uses: actions/checkout@v3
+    - uses: actions/checkout@v3
+      with:
+         repository: adafruit/ci-arduino
+         path: ci
 
-      - name: Install Arduino CI
-        run: |
-          pip install adafruit-nrfutil
-          wget https://raw.githubusercontent.com/adafruit/ci-arduino/master/ci-arduino.py -O ci-arduino.py
+    - name: pre-install
+      run: bash ci/actions_install.sh
 
-      - name: Run CI
-        run: python ci-arduino.py
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: test platforms
+      run: python3 ci/build_platform.py main_platforms
+
+    - name: clang
+      run: python3 ci/run-clang-format.py -e "ci/*" -e "bin/*" -r . 
+
+    - name: doxygen
+      env:
+        GH_REPO_TOKEN: ${{ secrets.GH_REPO_TOKEN }}
+        PRETTYNAME : "Adafruit AS7343 Library"
+      run: bash ci/doxy_gen_and_deploy.sh
