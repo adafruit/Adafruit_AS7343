@@ -27,6 +27,15 @@ void setup() {
 
   Serial.println(F("AS7343 found!"));
 
+  // === Chip Information ===
+  Serial.println(F("\n--- Chip Information ---"));
+  Serial.print(F("Part ID: 0x"));
+  Serial.println(as7343.getPartID(), HEX);
+  Serial.print(F("Revision ID: 0x"));
+  Serial.println(as7343.getRevisionID(), HEX);
+  Serial.print(F("Aux ID: 0x"));
+  Serial.println(as7343.getAuxID(), HEX);
+
   // === Spectral Engine Configuration ===
   Serial.println(F("\n--- Spectral Configuration ---"));
 
@@ -109,6 +118,33 @@ void setup() {
     break;
   }
 
+  // === Wait Time Configuration ===
+  Serial.println(F("\n--- Wait Time Configuration ---"));
+
+  as7343.setWaitTime(100);
+  Serial.print(F("Wait Time: "));
+  Serial.print(as7343.getWaitTime());
+  Serial.println(F(" (disabled by default)"));
+
+  // === Interrupt Configuration ===
+  Serial.println(F("\n--- Interrupt Configuration ---"));
+
+  as7343.setPersistence(4);
+  Serial.print(F("Persistence: "));
+  Serial.println(as7343.getPersistence());
+
+  as7343.setThresholdChannel(0);
+  Serial.print(F("Threshold Channel: "));
+  Serial.println(as7343.getThresholdChannel());
+
+  as7343.setLowThreshold(100);
+  Serial.print(F("Low Threshold: "));
+  Serial.println(as7343.getLowThreshold());
+
+  as7343.setHighThreshold(60000);
+  Serial.print(F("High Threshold: "));
+  Serial.println(as7343.getHighThreshold());
+
   // === LED Driver Configuration ===
   Serial.println(F("\n--- LED Driver Configuration ---"));
 
@@ -144,6 +180,14 @@ void loop() {
       return;
     }
     delay(1);
+  }
+
+  // Check saturation
+  if (as7343.isAnalogSaturated()) {
+    Serial.print(F("[ANALOG SAT] "));
+  }
+  if (as7343.isDigitalSaturated()) {
+    Serial.print(F("[DIGITAL SAT] "));
   }
 
   // Read all channels

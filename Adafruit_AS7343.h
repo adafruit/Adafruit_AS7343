@@ -190,6 +190,11 @@ public:
   bool powerOn(bool enable);
   bool enableLowPower(bool enable);
 
+  // Wait time
+  bool enableWait(bool enable);
+  bool setWaitTime(uint8_t wtime);
+  uint8_t getWaitTime();
+
   // Interrupts
   bool enableSpectralInterrupt(bool enable);
   bool enableFIFOInterrupt(bool enable);
@@ -200,6 +205,19 @@ public:
   bool setHighThreshold(uint16_t threshold);
   uint16_t getLowThreshold();
   uint16_t getHighThreshold();
+  bool setPersistence(uint8_t persistence);
+  uint8_t getPersistence();
+  bool setThresholdChannel(uint8_t channel);
+  uint8_t getThresholdChannel();
+
+  // Saturation detection
+  bool isAnalogSaturated();
+  bool isDigitalSaturated();
+
+  // Chip info
+  uint8_t getPartID();
+  uint8_t getRevisionID();
+  uint8_t getAuxID();
 
 protected:
   virtual bool _init();

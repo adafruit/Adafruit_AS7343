@@ -519,3 +519,183 @@ uint16_t Adafruit_AS7343::getHighThreshold() {
       Adafruit_BusIO_Register(i2c_dev, AS7343_SP_TH_H, 2, LSBFIRST);
   return th_reg.read();
 }
+
+/**
+ * @brief Enable or disable wait time between measurements
+ * @param enable true to enable wait
+ * @return true on success
+ */
+bool Adafruit_AS7343::enableWait(bool enable) {
+  Adafruit_BusIO_Register enable_reg =
+      Adafruit_BusIO_Register(i2c_dev, AS7343_ENABLE);
+  Adafruit_BusIO_RegisterBits wen_bit =
+      Adafruit_BusIO_RegisterBits(&enable_reg, 1, 3);
+  return wen_bit.write(enable ? 1 : 0);
+}
+
+/**
+ * @brief Set the wait time between measurements
+ *
+ * Wait time = (WTIME + 1) * 2.78ms
+ * Range: 2.78ms (0) to 711ms (255)
+ *
+ * @param wtime Wait time value 0-255
+ * @return true on success
+ */
+bool Adafruit_AS7343::setWaitTime(uint8_t wtime) {
+  Adafruit_BusIO_Register wtime_reg =
+      Adafruit_BusIO_Register(i2c_dev, AS7343_WTIME);
+  return wtime_reg.write(wtime);
+}
+
+/**
+ * @brief Get the current wait time value
+ * @return Wait time value
+ */
+uint8_t Adafruit_AS7343::getWaitTime() {
+  Adafruit_BusIO_Register wtime_reg =
+      Adafruit_BusIO_Register(i2c_dev, AS7343_WTIME);
+  return wtime_reg.read();
+}
+
+/**
+ * @brief Set the interrupt persistence filter
+ *
+ * Number of consecutive measurements outside thresholds needed to trigger
+ * interrupt. 0=every cycle, 1-3=1-3 cycles, 4=5 cycles, 5=10 cycles, etc.
+ *
+ * @param persistence Persistence value 0-15
+ * @return true on success
+ */
+bool Adafruit_AS7343::setPersistence(uint8_t persistence) {
+  if (persistence > 15)
+    persistence = 15;
+  Adafruit_BusIO_Register pers_reg =
+      Adafruit_BusIO_Register(i2c_dev, AS7343_PERS);
+  Adafruit_BusIO_RegisterBits apers_bits =
+      Adafruit_BusIO_RegisterBits(&pers_reg, 4, 0);
+  return apers_bits.write(persistence);
+}
+
+/**
+ * @brief Get the current persistence value
+ * @return Persistence value 0-15
+ */
+uint8_t Adafruit_AS7343::getPersistence() {
+  Adafruit_BusIO_Register pers_reg =
+      Adafruit_BusIO_Register(i2c_dev, AS7343_PERS);
+  Adafruit_BusIO_RegisterBits apers_bits =
+      Adafruit_BusIO_RegisterBits(&pers_reg, 4, 0);
+  return apers_bits.read();
+}
+
+/**
+ * @brief Set which ADC channel is used for threshold interrupts
+ * @param channel ADC channel 0-5
+ * @return true on success
+ */
+bool Adafruit_AS7343::setThresholdChannel(uint8_t channel) {
+  if (channel > 5)
+    channel = 5;
+
+  // Need to switch to bank 1 for CFG12
+  setBank(true);
+
+  Adafruit_BusIO_Register cfg12_reg =
+      Adafruit_BusIO_Register(i2c_dev, AS7343_CFG12);
+  Adafruit_BusIO_RegisterBits sp_th_ch_bits =
+      Adafruit_BusIO_RegisterBits(&cfg12_reg, 3, 0);
+  bool result = sp_th_ch_bits.write(channel);
+
+  setBank(false);
+  return result;
+}
+
+/**
+ * @brief Get the current threshold channel
+ * @return ADC channel 0-5
+ */
+uint8_t Adafruit_AS7343::getThresholdChannel() {
+  setBank(true);
+
+  Adafruit_BusIO_Register cfg12_reg =
+      Adafruit_BusIO_Register(i2c_dev, AS7343_CFG12);
+  Adafruit_BusIO_RegisterBits sp_th_ch_bits =
+      Adafruit_BusIO_RegisterBits(&cfg12_reg, 3, 0);
+  uint8_t channel = sp_th_ch_bits.read();
+
+  setBank(false);
+  return channel;
+}
+
+/**
+ * @brief Check if analog saturation occurred
+ * @return true if analog circuit saturated
+ */
+bool Adafruit_AS7343::isAnalogSaturated() {
+  Adafruit_BusIO_Register status2_reg =
+      Adafruit_BusIO_Register(i2c_dev, AS7343_STATUS2);
+  Adafruit_BusIO_RegisterBits asat_ana_bit =
+      Adafruit_BusIO_RegisterBits(&status2_reg, 1, 3);
+  return asat_ana_bit.read() == 1;
+}
+
+/**
+ * @brief Check if digital saturation occurred
+ * @return true if ADC counter saturated
+ */
+bool Adafruit_AS7343::isDigitalSaturated() {
+  Adafruit_BusIO_Register status2_reg =
+      Adafruit_BusIO_Register(i2c_dev, AS7343_STATUS2);
+  Adafruit_BusIO_RegisterBits asat_dig_bit =
+      Adafruit_BusIO_RegisterBits(&status2_reg, 1, 4);
+  return asat_dig_bit.read() == 1;
+}
+
+/**
+ * @brief Get the chip part ID
+ * @return Part ID (should be 0x81 for AS7343)
+ */
+uint8_t Adafruit_AS7343::getPartID() {
+  setBank(true);
+
+  Adafruit_BusIO_Register id_reg = Adafruit_BusIO_Register(i2c_dev, AS7343_ID);
+  uint8_t id = id_reg.read();
+
+  setBank(false);
+  return id;
+}
+
+/**
+ * @brief Get the chip revision ID
+ * @return Revision ID (bits 2:0)
+ */
+uint8_t Adafruit_AS7343::getRevisionID() {
+  setBank(true);
+
+  Adafruit_BusIO_Register rev_reg =
+      Adafruit_BusIO_Register(i2c_dev, AS7343_REVID);
+  Adafruit_BusIO_RegisterBits rev_bits =
+      Adafruit_BusIO_RegisterBits(&rev_reg, 3, 0);
+  uint8_t rev = rev_bits.read();
+
+  setBank(false);
+  return rev;
+}
+
+/**
+ * @brief Get the chip auxiliary ID
+ * @return Auxiliary ID (bits 3:0)
+ */
+uint8_t Adafruit_AS7343::getAuxID() {
+  setBank(true);
+
+  Adafruit_BusIO_Register aux_reg =
+      Adafruit_BusIO_Register(i2c_dev, AS7343_AUXID);
+  Adafruit_BusIO_RegisterBits aux_bits =
+      Adafruit_BusIO_RegisterBits(&aux_reg, 4, 0);
+  uint8_t aux = aux_bits.read();
+
+  setBank(false);
+  return aux;
+}
