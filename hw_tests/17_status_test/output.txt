@@ -1,0 +1,17 @@
+AS7343 Status Test
+==================
+
+Initial status:
+  Raw: 0x88
+  Bits: SINT=0 FINT=0 AINT=1 CINT=0 ASAT=1
+
+After measurement (high gain + bright light):
+  Raw: 0x88
+  Bits: SINT=0 FINT=0 AINT=1 CINT=0 ASAT=1
+
+After clearStatus():
+  Raw: 0x80
+  Bits: SINT=0 FINT=0 AINT=0 CINT=0 ASAT=1
+
+Status API: PASS
+RESULT: PASS
