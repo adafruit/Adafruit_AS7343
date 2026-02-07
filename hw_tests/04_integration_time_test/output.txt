@@ -1,0 +1,13 @@
+AS7343 Integration Time Test
+============================
+NeoPixels ON, Gain 64X...
+
+Setting     ATIME  ASTEP  Calc Time(ms)  F4 Reading
+-------     -----  -----  -------------  ----------
+Short       9      299   8.3           72
+Medium      29     599   50.0          436
+Long        99     999   278.0         2414
+
+ATIME/ASTEP readback: PASS
+Integration scaling: PASS (longer time = higher reading)
+RESULT: PASS
