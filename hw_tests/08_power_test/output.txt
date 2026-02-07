@@ -1,0 +1,21 @@
+AS7343 Power Control Test
+=========================
+
+NeoPixels ON...
+Initial reading (powered): F4=74
+
+Power OFF test:
+  powerOn(false): OK
+  Reading after power off: (sensor powered down)
+
+Power ON test:
+  powerOn(true): OK
+  Reading after power on: F4=864
+  Sensor recovered: OK
+
+Low Power Mode test:
+  enableLowPower(true): OK
+  enableLowPower(false): OK
+
+Power control: PASS
+RESULT: PASS
