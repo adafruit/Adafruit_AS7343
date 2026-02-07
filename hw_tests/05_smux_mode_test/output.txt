@@ -1,0 +1,12 @@
+AS7343 SMUX Mode Test
+=====================
+NeoPixels ON...
+
+Mode    Readback  Channels  Sample Values
+----    --------  --------  -------------
+6CH     PASS      6         FZ=69 FY=273 FXL=317 NIR=15 VIS_TL=423 VIS_BR=11051
+12CH    PASS      12        FZ=578 FY=1561 ... F6=2308 VIS_TL=2515 VIS_BR=17999
+18CH    PASS      18        FZ=711 FY=1633 ... F5=212 VIS_TL=2514 VIS_BR=17997
+
+Mode readback: PASS
+RESULT: PASS
