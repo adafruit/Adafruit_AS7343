@@ -1,0 +1,25 @@
+AS7343 Threshold Test
+=====================
+
+Low Threshold Readback:
+Value      Readback   Status
+----------------------------
+0          0          PASS
+1000       1000       PASS
+32768      32768      PASS
+65535      65535      PASS
+
+High Threshold Readback:
+Value      Readback   Status
+----------------------------
+0          0          PASS
+1000       1000       PASS
+32768      32768      PASS
+65535      65535      PASS
+
+Independence test:
+  Set low=1234, high=5678
+  Read low: 1234, high: 5678 - PASS
+
+Threshold readback: PASS
+RESULT: PASS

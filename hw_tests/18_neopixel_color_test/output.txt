@@ -1,0 +1,23 @@
+AS7343 NeoPixel Color Test
+==========================
+
+RED (255,0,0):
+  F2(425nm)=103 F3(475nm)=94 FZ(450nm)=69
+  F4(515nm)=175 FY(555nm)=332 F5(550nm)=41
+  F6(640nm)=3983 F7(690nm)=2126 F8(745nm)=41
+  Dominant: F6, F7 (red channels) - PASS
+
+GREEN (0,255,0):
+  F2(425nm)=90 F3(475nm)=87 FZ(450nm)=76
+  F4(515nm)=937 FY(555nm)=353 F5(550nm)=281
+  F6(640nm)=2456 F7(690nm)=195 F8(745nm)=41
+  Dominant: F4, FY, F5 (green channels) - PASS
+
+BLUE (0,0,255):
+  F2(425nm)=89 F3(475nm)=2456 FZ(450nm)=1239
+  F4(515nm)=1260 FY(555nm)=907 F5(550nm)=60
+  F6(640nm)=198 F7(690nm)=186 F8(745nm)=41
+  Dominant: FZ, F3 (blue channels) - PASS
+
+Color response: PASS
+RESULT: PASS

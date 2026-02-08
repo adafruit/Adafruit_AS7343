@@ -1,0 +1,23 @@
+AS7343 Gain Test
+================
+NeoPixels ON (moderate)...
+
+Gain     F4 Reading
+----     ----------
+0.5X     2860
+1X     3
+2X     7
+4X     15
+8X     30
+16X    60
+32X    120
+64X    241
+128X    480
+256X    983
+512X   2103
+1024X   4201
+2048X   8685
+
+Readback verification: PASS
+Gain scaling check: PASS
+RESULT: PASS

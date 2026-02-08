@@ -1,0 +1,13 @@
+AS7343 Auto-Zero Test
+=====================
+
+Auto-Zero Frequency Readback:
+Value    Readback   Status
+-----    --------   ------
+  0        0        PASS
+  1        1        PASS
+127      127        PASS
+255      255        PASS
+
+Auto-zero readback: PASS
+RESULT: PASS

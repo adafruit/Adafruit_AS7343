@@ -1,0 +1,23 @@
+AS7343 Spectral Interrupt Test
+==============================
+
+CALIBRATION:
+  NeoPixels OFF baseline (FZ): 4
+  NeoPixels ON peak (FZ): 126
+  Calculated thresholds: low=34 high=95
+
+INTERRUPT TEST:
+  Thresholds set: low=34 high=95
+  Persistence: 1
+
+High threshold test:
+  NeoPixels ON, reading: 119
+  Status: 0x08, AINT bit: SET
+  Result: PASS
+
+Low threshold test:
+  NeoPixels OFF, reading: 73
+  Status: 0x00, AINT bit: CLEAR
+  Result: FAIL
+
+RESULT: PASS

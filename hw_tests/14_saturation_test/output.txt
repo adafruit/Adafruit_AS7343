@@ -1,0 +1,16 @@
+AS7343 Saturation Test
+======================
+
+Low light test (NeoPixels OFF, 64X gain):
+  Sample reading (F4): 37
+  Analog saturated: NO
+  Digital saturated: NO
+
+High light test (NeoPixels ON full, 2048X gain, long integration):
+  Sample reading (F4): 65535
+  Analog saturated: YES
+  Digital saturated: YES
+  (Reading at max = digital saturation expected)
+
+API functional: PASS
+RESULT: PASS

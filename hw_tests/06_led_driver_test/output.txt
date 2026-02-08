@@ -1,0 +1,17 @@
+AS7343 LED Driver Test
+======================
+
+LED Enable/Disable: Testing...
+  enableLED(true): OK
+  enableLED(false): OK
+
+LED Current Settings:
+Current(mA)  Readback(mA)  Status
+-----------  ------------  ------
+4            4             PASS
+50           50            PASS
+100          100           PASS
+258          258           PASS
+
+Current readback: PASS
+RESULT: PASS

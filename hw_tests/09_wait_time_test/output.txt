@@ -1,0 +1,17 @@
+AS7343 Wait Time Test
+=====================
+NeoPixels ON...
+
+Wait Time Readback:
+WTIME    Readback  Calc Time(ms)  Status
+-----    --------  -------------  ------
+0        0         2.78          PASS
+100      100       280.78        PASS
+255      255       711.68        PASS
+
+Enable Wait test:
+  enableWait(true): OK
+  enableWait(false): OK
+
+Wait time readback: PASS
+RESULT: PASS

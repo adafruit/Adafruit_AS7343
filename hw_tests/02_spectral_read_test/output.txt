@@ -1,0 +1,12 @@
+AS7343 Spectral Read Test
+=========================
+NeoPixels OFF baseline...
+NeoPixels ON white...
+Waiting for data ready...
+
+Channel readings (18-channel mode):
+Cycle 1: FZ=2413 FY=5069 FXL=1456 NIR=470 VIS_TL=7579 VIS_BR=16724
+Cycle 2: F2=983 F3=5618 F4=7157 F6=8626 VIS_TL=9215 VIS_BR=17999
+Cycle 3: F1=788 F7=4964 F8=737 F5=1081 VIS_TL=9206 VIS_BR=17999
+
+RESULT: PASS

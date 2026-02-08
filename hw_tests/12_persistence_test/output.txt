@@ -1,0 +1,26 @@
+AS7343 Persistence Test
+=======================
+
+Persistence Readback:
+Value    Readback   Status
+-----    --------   ------
+0        0          PASS
+1        1          PASS
+2        2          PASS
+3        3          PASS
+4        4          PASS
+5        5          PASS
+6        6          PASS
+7        7          PASS
+8        8          PASS
+9        9          PASS
+10       10         PASS
+11       11         PASS
+12       12         PASS
+13       13         PASS
+14       14         PASS
+15       15         PASS
+
+Persistence readback: PASS
+
+RESULT: PASS

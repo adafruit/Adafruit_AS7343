@@ -1,0 +1,17 @@
+AS7343 Flicker Detection Test
+=============================
+
+API Test:
+  enableFlickerDetection(true): OK
+  enableFlickerDetection(false): OK
+
+Flicker Detection with NeoPixels (dim):
+  Raw status: 0x2C
+  Frequency: NONE
+
+Flicker Detection with Ambient Light:
+  Raw status: 0x2E
+  Frequency: 120Hz
+
+API functional: PASS
+RESULT: PASS

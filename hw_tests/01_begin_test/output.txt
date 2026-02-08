@@ -1,0 +1,10 @@
+================================
+AS7343 Begin Test
+================================
+AS7343 initialized OK
+Part ID: 0x81
+Aux ID: 0x0
+Revision ID: 0x0
+--------------------------------
+Part ID verified: PASS
+RESULT: PASS
