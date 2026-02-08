@@ -1,7 +1,7 @@
 AS7343 Threshold Channel Test
 =============================
 
-Threshold Channel Readback:
+Part 1: Register Readback
 Channel  Readback   Status
 -------  --------   ------
 0        0          PASS
@@ -11,5 +11,27 @@ Channel  Readback   Status
 4        4          PASS
 5        5          PASS
 
-Threshold channel readback: PASS
+Register readback: PASS
+
+Part 2: Threshold Comparison (always CH0)
+
+Calibration:
+  NeoPixels OFF - Ch0: 8
+  NeoPixels ON  - Ch0: 501
+  Threshold: 172
+
+Test A: NeoPixels ON (Ch0 > threshold)
+  Cycles to AINT: 5 PASS
+Test B: NeoPixels OFF (Ch0 < threshold)
+  Cycles to AINT: 25 (timeout) PASS
+
+Verification:
+  a) Light ON triggers AINT:  PASS
+  b) Light OFF no trigger:    PASS
+
+Note: SP_TH_CH register r/w works but does NOT
+      affect threshold comparison (always CH0)
+
+Register readback: PASS
+Hardware test:     PASS
 RESULT: PASS
