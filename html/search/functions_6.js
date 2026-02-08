@@ -1,0 +1,22 @@
+var searchData=
+[
+  ['getastep',['getASTEP',['../class_adafruit___a_s7343.html#a3e510befbb8a773b4aa387ca2be43ddc',1,'Adafruit_AS7343']]],
+  ['getatime',['getATIME',['../class_adafruit___a_s7343.html#a88f3adb8be44995f5ed162973b7a1638',1,'Adafruit_AS7343']]],
+  ['getautozerofrequency',['getAutoZeroFrequency',['../class_adafruit___a_s7343.html#ab3cb1f4894de7158c84ae48f032e714d',1,'Adafruit_AS7343']]],
+  ['getauxid',['getAuxID',['../class_adafruit___a_s7343.html#a97a67697f54f96e248a692e583942ca9',1,'Adafruit_AS7343']]],
+  ['getflickerfrequency',['getFlickerFrequency',['../class_adafruit___a_s7343.html#a8297a5c1bba04981dc75239b685b3b74',1,'Adafruit_AS7343']]],
+  ['getflickerstatus',['getFlickerStatus',['../class_adafruit___a_s7343.html#aa4c54fd294aff660cafc7231f1298059',1,'Adafruit_AS7343']]],
+  ['getgain',['getGain',['../class_adafruit___a_s7343.html#af642cb65951eb1539626d2a1932321da',1,'Adafruit_AS7343']]],
+  ['getgpiovalue',['getGPIOValue',['../class_adafruit___a_s7343.html#a8da702895620364fc1d1eb8617cc34c7',1,'Adafruit_AS7343']]],
+  ['gethighthreshold',['getHighThreshold',['../class_adafruit___a_s7343.html#af4e29293bbdc37c90daddded95b303b6',1,'Adafruit_AS7343']]],
+  ['getintegrationtime',['getIntegrationTime',['../class_adafruit___a_s7343.html#a88609ed31ddbca7e7da8c942efb26ecb',1,'Adafruit_AS7343']]],
+  ['getledcurrent',['getLEDCurrent',['../class_adafruit___a_s7343.html#aeca367aaad975a85dfb20c4ab574021f',1,'Adafruit_AS7343']]],
+  ['getlowthreshold',['getLowThreshold',['../class_adafruit___a_s7343.html#a6852c85f8a3728c0d2a052ee573f098d',1,'Adafruit_AS7343']]],
+  ['getpartid',['getPartID',['../class_adafruit___a_s7343.html#a7f5f38266facebc790f07a0251c31e40',1,'Adafruit_AS7343']]],
+  ['getpersistence',['getPersistence',['../class_adafruit___a_s7343.html#afa00b0f1eaf48a637e5896ff41a19881',1,'Adafruit_AS7343']]],
+  ['getrevisionid',['getRevisionID',['../class_adafruit___a_s7343.html#a0c342258f07d01e6abd962e2d77c3455',1,'Adafruit_AS7343']]],
+  ['getsmuxmode',['getSMUXMode',['../class_adafruit___a_s7343.html#a3435a56eedecce42f870bfb145a3c54c',1,'Adafruit_AS7343']]],
+  ['getstatus',['getStatus',['../class_adafruit___a_s7343.html#afe763b63165386e0b764a3a3c994ecf3',1,'Adafruit_AS7343']]],
+  ['getthresholdchannel',['getThresholdChannel',['../class_adafruit___a_s7343.html#a8f58c833829c1ebe72f88426021bd823',1,'Adafruit_AS7343']]],
+  ['getwaittime',['getWaitTime',['../class_adafruit___a_s7343.html#a2891fae93aa8d40bc293e5ec50ede8de',1,'Adafruit_AS7343']]]
+];
