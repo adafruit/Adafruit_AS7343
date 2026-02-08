@@ -788,21 +788,16 @@ uint8_t Adafruit_AS7343::getAuxID() {
  * @return true on success
  */
 bool Adafruit_AS7343::setGPIOOutput(bool enable) {
-  if (!setBank(true)) {
-    return false;
-  }
+  setBank(true);
 
   Adafruit_BusIO_Register gpio_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_GPIO);
-  uint8_t val = gpio_reg.read();
+  Adafruit_BusIO_RegisterBits gpio_in_en =
+      Adafruit_BusIO_RegisterBits(&gpio_reg, 1, 2); // Bit 2: GPIO_IN_EN
 
-  if (enable) {
-    val &= ~(1 << 2);
-  } else {
-    val |= (1 << 2);
-  }
+  // GPIO_IN_EN: 0 = output mode, 1 = input mode (inverted logic)
+  bool result = gpio_in_en.write(!enable);
 
-  bool result = gpio_reg.write(val);
   setBank(false);
   return result;
 }
@@ -813,21 +808,15 @@ bool Adafruit_AS7343::setGPIOOutput(bool enable) {
  * @return true on success
  */
 bool Adafruit_AS7343::setGPIOValue(bool high) {
-  if (!setBank(true)) {
-    return false;
-  }
+  setBank(true);
 
   Adafruit_BusIO_Register gpio_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_GPIO);
-  uint8_t val = gpio_reg.read();
+  Adafruit_BusIO_RegisterBits gpio_out =
+      Adafruit_BusIO_RegisterBits(&gpio_reg, 1, 1); // Bit 1: GPIO_OUT
 
-  if (high) {
-    val |= (1 << 1);
-  } else {
-    val &= ~(1 << 1);
-  }
+  bool result = gpio_out.write(high);
 
-  bool result = gpio_reg.write(val);
   setBank(false);
   return result;
 }
@@ -837,16 +826,17 @@ bool Adafruit_AS7343::setGPIOValue(bool high) {
  * @return true if GPIO reads high
  */
 bool Adafruit_AS7343::getGPIOValue() {
-  if (!setBank(true)) {
-    return false;
-  }
+  setBank(true);
 
   Adafruit_BusIO_Register gpio_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_GPIO);
-  uint8_t val = gpio_reg.read();
+  Adafruit_BusIO_RegisterBits gpio_in =
+      Adafruit_BusIO_RegisterBits(&gpio_reg, 1, 0); // Bit 0: GPIO_IN
+
+  bool value = gpio_in.read();
 
   setBank(false);
-  return (val & (1 << 0)) != 0;
+  return value;
 }
 
 /**
@@ -855,21 +845,15 @@ bool Adafruit_AS7343::getGPIOValue() {
  * @return true on success
  */
 bool Adafruit_AS7343::setGPIOInverted(bool invert) {
-  if (!setBank(true)) {
-    return false;
-  }
+  setBank(true);
 
   Adafruit_BusIO_Register gpio_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_GPIO);
-  uint8_t val = gpio_reg.read();
+  Adafruit_BusIO_RegisterBits gpio_inv =
+      Adafruit_BusIO_RegisterBits(&gpio_reg, 1, 3); // Bit 3: GPIO_INV
 
-  if (invert) {
-    val |= (1 << 3);
-  } else {
-    val &= ~(1 << 3);
-  }
+  bool result = gpio_inv.write(invert);
 
-  bool result = gpio_reg.write(val);
   setBank(false);
   return result;
 }
