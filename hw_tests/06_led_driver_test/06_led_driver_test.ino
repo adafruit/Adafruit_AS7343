@@ -119,15 +119,27 @@ void setup() {
   Serial.print(F("Current readback: "));
   Serial.println(currentTestOK ? F("PASS") : F("FAIL"));
 
-  // Make sure LED is off
-  as7343.enableLED(false);
-
   // Final result
   bool allPass = enableTestOK && currentTestOK;
   Serial.print(F("RESULT: "));
   Serial.println(allPass ? F("PASS") : F("FAIL"));
+
+  // Enable LED for pulsing demo
+  Serial.println(F("\nStarting LED pulse demo (4-258mA, 2s up / 2s down)..."));
+  as7343.setLEDCurrent(4);
+  as7343.enableLED(true);
 }
 
 void loop() {
-  // Nothing to do
+  // Ramp up: 4 to 258 mA in 2 seconds (128 steps of 2mA)
+  for (uint16_t ma = 4; ma <= 258; ma += 2) {
+    as7343.setLEDCurrent(ma);
+    delay(15);
+  }
+
+  // Ramp down: 258 to 4 mA in 2 seconds
+  for (uint16_t ma = 258; ma >= 4; ma -= 2) {
+    as7343.setLEDCurrent(ma);
+    delay(15);
+  }
 }
