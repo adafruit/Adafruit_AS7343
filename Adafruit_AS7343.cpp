@@ -72,6 +72,21 @@ bool Adafruit_AS7343::_init() {
     return false;
   }
 
+  // Software reset — forces a full power-on reset to clear any stale state
+  {
+    uint8_t buf[2] = {AS7343_CONTROL, 0x08}; // bit 3 = SW_RESET
+    i2c_dev->write(buf, 2);
+    delay(200); // Wait for reset to complete
+
+    // Chip reboots with REG_BANK=0, PON=0 — poll until I2C responds
+    for (uint8_t retries = 0; retries < 20; retries++) {
+      if (i2c_dev->detected()) {
+        break;
+      }
+      delay(50);
+    }
+  }
+
   // Power on
   if (!powerOn(true)) {
     return false;
