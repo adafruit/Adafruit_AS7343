@@ -317,10 +317,15 @@ bool Adafruit_AS7343::readAllChannels(uint16_t *readings_buffer) {
     num_channels = 18;
   }
 
-  // Ensure SP_EN is off and AVALID is cleared before starting
+  // Full reset sequence: stop measurement, disable spectral engine,
+  // re-write SMUX config to reset the cycle state machine, clear status
   stopMeasurement();
+  delay(1);
 
-  // Clear any pending status by reading STATUS and ASTATUS
+  // Re-write auto_smux to force SMUX state machine reset
+  setSMUXMode(mode);
+
+  // Clear any pending status
   Adafruit_BusIO_Register status_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_STATUS);
   uint8_t status_val = status_reg.read();
@@ -329,22 +334,13 @@ bool Adafruit_AS7343::readAllChannels(uint16_t *readings_buffer) {
       Adafruit_BusIO_Register(i2c_dev, AS7343_ASTATUS);
   astatus_reg.read();
 
-  // Wait for AVALID to actually clear
-  uint32_t start = millis();
-  while (dataReady()) {
-    if (millis() - start > 100) {
-      break; // Give up waiting, proceed anyway
-    }
-    delay(1);
-  }
-
   // Start one measurement — auto-SMUX runs all cycles internally
   if (!startMeasurement()) {
     return false;
   }
 
   // Wait for AVALID (fires after all cycles complete)
-  start = millis();
+  uint32_t start = millis();
   while (!dataReady()) {
     if (millis() - start > 1000) {
       stopMeasurement();
