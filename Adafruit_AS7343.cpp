@@ -317,23 +317,43 @@ bool Adafruit_AS7343::readAllChannels(uint16_t *readings_buffer) {
     num_channels = 18;
   }
 
+  // Ensure SP_EN is off and AVALID is cleared before starting
+  stopMeasurement();
+
+  // Clear any pending status by reading STATUS and ASTATUS
+  Adafruit_BusIO_Register status_reg =
+      Adafruit_BusIO_Register(i2c_dev, AS7343_STATUS);
+  uint8_t status_val = status_reg.read();
+  status_reg.write(status_val); // Write back to self-clear
+  Adafruit_BusIO_Register astatus_reg =
+      Adafruit_BusIO_Register(i2c_dev, AS7343_ASTATUS);
+  astatus_reg.read();
+
+  // Wait for AVALID to actually clear
+  uint32_t start = millis();
+  while (dataReady()) {
+    if (millis() - start > 100) {
+      break; // Give up waiting, proceed anyway
+    }
+    delay(1);
+  }
+
   // Start one measurement — auto-SMUX runs all cycles internally
   if (!startMeasurement()) {
     return false;
   }
 
   // Wait for AVALID (fires after all cycles complete)
-  uint32_t start = millis();
+  start = millis();
   while (!dataReady()) {
     if (millis() - start > 1000) {
+      stopMeasurement();
       return false;
     }
     delay(1);
   }
 
-  // Read ASTATUS to latch data and clear AVALID
-  Adafruit_BusIO_Register astatus_reg =
-      Adafruit_BusIO_Register(i2c_dev, AS7343_ASTATUS);
+  // Read ASTATUS to latch data
   astatus_reg.read();
 
   // Read all data registers in one burst
@@ -343,6 +363,9 @@ bool Adafruit_AS7343::readAllChannels(uint16_t *readings_buffer) {
   if (!data_reg.read((uint8_t *)readings_buffer, num_channels * 2)) {
     return false;
   }
+
+  // Stop measurement so AVALID clears for next read
+  stopMeasurement();
 
   return true;
 }
