@@ -27,7 +27,7 @@ void setup() {
   }
 
   // Configure for good plotter response
-  as7343.setGain(AS7343_GAIN_256X);
+  as7343.setGain(AS7343_GAIN_64X);
   as7343.setATIME(29);
   as7343.setASTEP(599);
   as7343.setSMUXMode(AS7343_SMUX_18CH);
@@ -36,11 +36,10 @@ void setup() {
 void loop() {
   uint16_t readings[18];
 
-  as7343.startMeasurement();
-  while (!as7343.dataReady()) {
-    delay(1);
+  if (!as7343.readAllChannels(readings)) {
+    delay(500);
+    return;
   }
-  as7343.readAllChannels(readings);
 
   // Output in wavelength order for spectrum visualization
   // Format: label:value with tabs between for Serial Plotter

@@ -29,7 +29,7 @@ void setup() {
   Serial.println("AS7343 found!");
 
   // Configure sensor
-  as7343.setGain(AS7343_GAIN_256X);
+  as7343.setGain(AS7343_GAIN_64X);
   as7343.setATIME(29);  // Integration cycles
   as7343.setASTEP(599); // Step size
 
@@ -41,14 +41,12 @@ void setup() {
 void loop() {
   uint16_t readings[18];
 
-  // Start measurement and wait for data
-  as7343.startMeasurement();
-  while (!as7343.dataReady()) {
-    delay(1);
+  // Read all channels (starts measurement, waits, reads internally)
+  if (!as7343.readAllChannels(readings)) {
+    Serial.println("Read failed!");
+    delay(500);
+    return;
   }
-
-  // Read all channels
-  as7343.readAllChannels(readings);
 
   // Print spectral channels (wavelength order)
   Serial.println("\n--- Spectral Readings ---");
