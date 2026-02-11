@@ -39,7 +39,7 @@ void setup() {
   // === Spectral Engine Configuration ===
   Serial.println(F("\n--- Spectral Configuration ---"));
 
-  as7343.setGain(AS7343_GAIN_256X);
+  as7343.setGain(AS7343_GAIN_64X);
   Serial.print(F("Gain: "));
   switch (as7343.getGain()) {
   case AS7343_GAIN_0_5X:
@@ -171,29 +171,11 @@ void setup() {
 void loop() {
   uint16_t readings[18];
 
-  // Start measurement
-  as7343.startMeasurement();
-
-  // Wait for data with timeout
-  uint32_t start = millis();
-  while (!as7343.dataReady()) {
-    if (millis() - start > 500) {
-      Serial.println(F("Timeout waiting for data!"));
-      return;
-    }
-    delay(1);
+  if (!as7343.readAllChannels(readings)) {
+    Serial.println(F("Read failed!"));
+    delay(500);
+    return;
   }
-
-  // Check saturation
-  if (as7343.isAnalogSaturated()) {
-    Serial.print(F("[ANALOG SAT] "));
-  }
-  if (as7343.isDigitalSaturated()) {
-    Serial.print(F("[DIGITAL SAT] "));
-  }
-
-  // Read all channels
-  as7343.readAllChannels(readings);
 
   // Print in wavelength order for easier reading
   Serial.print(F("F1:"));
@@ -220,10 +202,7 @@ void loop() {
   Serial.print(F("\tF8:"));
   Serial.print(readings[AS7343_CHANNEL_F8]);
   Serial.print(F("\tNIR:"));
-  Serial.print(readings[AS7343_CHANNEL_NIR]);
-
-  Serial.print(F("\tVIS:"));
-  Serial.println(readings[AS7343_CHANNEL_VIS_TL_0]);
+  Serial.println(readings[AS7343_CHANNEL_NIR]);
 
   delay(100);
 }

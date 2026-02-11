@@ -307,6 +307,7 @@ bool Adafruit_AS7343::dataReady() {
  */
 bool Adafruit_AS7343::readAllChannels(uint16_t *readings_buffer) {
   setBank(false);
+
   // Determine how many channels based on mode
   as7343_smux_mode_t mode = getSMUXMode();
   uint8_t num_channels = 6;
@@ -316,15 +317,34 @@ bool Adafruit_AS7343::readAllChannels(uint16_t *readings_buffer) {
     num_channels = 18;
   }
 
-  // Read ASTATUS first to latch all data
+  // Start one measurement — auto-SMUX runs all cycles internally
+  if (!startMeasurement()) {
+    return false;
+  }
+
+  // Wait for AVALID (fires after all cycles complete)
+  uint32_t start = millis();
+  while (!dataReady()) {
+    if (millis() - start > 1000) {
+      return false;
+    }
+    delay(1);
+  }
+
+  // Read ASTATUS to latch data and clear AVALID
   Adafruit_BusIO_Register astatus_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_ASTATUS);
   astatus_reg.read();
 
   // Read all data registers in one burst
+  // DATA_0_L starts at 0x96, each channel is 2 bytes (little-endian)
   Adafruit_BusIO_Register data_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_DATA_0_L, 2);
-  return data_reg.read((uint8_t *)readings_buffer, num_channels * 2);
+  if (!data_reg.read((uint8_t *)readings_buffer, num_channels * 2)) {
+    return false;
+  }
+
+  return true;
 }
 
 /**
